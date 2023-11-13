@@ -13,18 +13,6 @@ CREATE DATABASE IF NOT EXISTS VideoGameInformation;
 
 USE VideoGameInformation;
 -- -----------------------------------------------------
--- Table `publisher`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `publisher` ;
-
-CREATE TABLE IF NOT EXISTS `publisher` (
-  `publisher_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`publisher_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `game`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `game` ;
@@ -35,15 +23,8 @@ CREATE TABLE IF NOT EXISTS `game` (
   `price` INT NOT NULL,
   `release_date` DATE NOT NULL,
   `description` TEXT(10000) NOT NULL,
-  `crossplay` VARCHAR(45) BINARY NULL,
-  `publisher_publisher_id` INT NOT NULL,
-  PRIMARY KEY (`game_id`),
-  INDEX `fk_game_publisher1_idx` (`publisher_publisher_id` ASC) VISIBLE,
-  CONSTRAINT `fk_game_publisher1`
-    FOREIGN KEY (`publisher_publisher_id`)
-    REFERENCES `publisher` (`publisher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `crossplay` TINYINT NOT NULL,
+  PRIMARY KEY (`game_id`))
 ENGINE = InnoDB;
 
 
@@ -54,8 +35,8 @@ DROP TABLE IF EXISTS `gamePlatform` ;
 
 CREATE TABLE IF NOT EXISTS `gamePlatform` (
   `platform_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
-  `company` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `company` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`platform_id`))
 ENGINE = InnoDB;
 
@@ -139,13 +120,13 @@ CREATE TABLE IF NOT EXISTS `game_has_gamePlatform` (
   CONSTRAINT `fk_game_has_gamePlatform_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_gamePlatform_gamePlatform1`
     FOREIGN KEY (`gamePlatform_platform_id`)
     REFERENCES `gamePlatform` (`platform_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -163,13 +144,13 @@ CREATE TABLE IF NOT EXISTS `game_has_gameRegion` (
   CONSTRAINT `fk_game_has_gameRegion_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_gameRegion_gameRegion1`
     FOREIGN KEY (`gameRegion_game_region_id`)
     REFERENCES `gameRegion` (`game_region_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -188,12 +169,12 @@ CREATE TABLE IF NOT EXISTS `game_has_developer` (
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_developer_developer1`
     FOREIGN KEY (`developer_developer_id`)
     REFERENCES `developer` (`developer_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -211,13 +192,13 @@ CREATE TABLE IF NOT EXISTS `game_has_genre` (
   CONSTRAINT `fk_game_has_genre_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_genre_genre1`
     FOREIGN KEY (`genre_genre_id`)
     REFERENCES `genre` (`genre_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -235,13 +216,13 @@ CREATE TABLE IF NOT EXISTS `game_has_franchise` (
   CONSTRAINT `fk_game_has_franchise_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_franchise_franchise1`
     FOREIGN KEY (`franchise_franchise_id`)
     REFERENCES `franchise` (`franchise_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -265,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `game_has_supportedLanguage` (
     FOREIGN KEY (`supportedLanguage_supported_language_id`)
     REFERENCES `supportedLanguage` (`supported_language_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -276,8 +257,8 @@ DROP TABLE IF EXISTS `awards` ;
 
 CREATE TABLE IF NOT EXISTS `awards` (
   `awards_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
-  `date` DATE NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `date` DATE NOT NULL,
   PRIMARY KEY (`awards_id`))
 ENGINE = InnoDB;
 
@@ -296,13 +277,13 @@ CREATE TABLE IF NOT EXISTS `game_has_awards` (
   CONSTRAINT `fk_game_has_awards_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_awards_awards1`
     FOREIGN KEY (`awards_awards_id`)
     REFERENCES `awards` (`awards_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -313,8 +294,8 @@ DROP TABLE IF EXISTS `awardNominations` ;
 
 CREATE TABLE IF NOT EXISTS `awardNominations` (
   `awardNominations_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
-  `date` DATE NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `date` DATE NOT NULL,
   PRIMARY KEY (`awardNominations_id`))
 ENGINE = InnoDB;
 
@@ -334,12 +315,12 @@ CREATE TABLE IF NOT EXISTS `game_has_awardNominations` (
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_awardNominations_awardNominations1`
     FOREIGN KEY (`awardNominations_awardNominations_id`)
     REFERENCES `awardNominations` (`awardNominations_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -350,7 +331,7 @@ DROP TABLE IF EXISTS `composer` ;
 
 CREATE TABLE IF NOT EXISTS `composer` (
   `composer_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`composer_id`))
 ENGINE = InnoDB;
 
@@ -369,13 +350,25 @@ CREATE TABLE IF NOT EXISTS `game_has_composer` (
   CONSTRAINT `fk_game_has_composer_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_game_has_composer_composer1`
     FOREIGN KEY (`composer_composer_id`)
     REFERENCES `composer` (`composer_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `publisher`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `publisher` ;
+
+CREATE TABLE IF NOT EXISTS `publisher` (
+  `publisher_id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`publisher_id`))
 ENGINE = InnoDB;
 
 
@@ -386,7 +379,7 @@ DROP TABLE IF EXISTS `investor` ;
 
 CREATE TABLE IF NOT EXISTS `investor` (
   `investor_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`investor_id`))
 ENGINE = InnoDB;
 
@@ -410,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `publisher_has_investor` (
     FOREIGN KEY (`investor_investor_id`)
     REFERENCES `investor` (`investor_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -421,8 +414,8 @@ DROP TABLE IF EXISTS `ESRB` ;
 
 CREATE TABLE IF NOT EXISTS `ESRB` (
   `ESRB_id` INT NOT NULL,
-  `ESRB_rating` VARCHAR(45) NULL,
-  `reasons` TEXT NULL,
+  `ESRB_rating` VARCHAR(45) NOT NULL,
+  `reasons` TEXT NOT NULL,
   `game_game_id` INT NOT NULL,
   `game_publisher_publisher_id` INT NOT NULL,
   PRIMARY KEY (`ESRB_id`, `game_game_id`, `game_publisher_publisher_id`),
@@ -430,8 +423,8 @@ CREATE TABLE IF NOT EXISTS `ESRB` (
   CONSTRAINT `fk_ESRB_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -455,8 +448,8 @@ CREATE TABLE IF NOT EXISTS `systemRequirements` (
   CONSTRAINT `fk_systemRequirements_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -475,8 +468,8 @@ CREATE TABLE IF NOT EXISTS `content` (
   CONSTRAINT `fk_content_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -497,8 +490,8 @@ CREATE TABLE IF NOT EXISTS `photo` (
   CONSTRAINT `fk_photo_content1`
     FOREIGN KEY (`content_content_id` , `content_game_game_id` , `content_game_publisher_publisher_id`)
     REFERENCES `content` (`content_id` , `game_game_id` , `game_publisher_publisher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -519,8 +512,8 @@ CREATE TABLE IF NOT EXISTS `video` (
   CONSTRAINT `fk_video_content1`
     FOREIGN KEY (`content_content_id` , `content_game_game_id` , `content_game_publisher_publisher_id`)
     REFERENCES `content` (`content_id` , `game_game_id` , `game_publisher_publisher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -539,8 +532,8 @@ CREATE TABLE IF NOT EXISTS `updateLog` (
   CONSTRAINT `fk_updateLog_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -560,8 +553,8 @@ CREATE TABLE IF NOT EXISTS `updateEntry` (
   CONSTRAINT `fk_updateEntry_updateLog1`
     FOREIGN KEY (`updateLog_updateLog_id` , `updateLog_game_game_id` , `updateLog_game_publisher_publisher_id`)
     REFERENCES `updateLog` (`updateLog_id` , `game_game_id` , `game_publisher_publisher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -609,18 +602,18 @@ CREATE TABLE IF NOT EXISTS `review` (
   CONSTRAINT `fk_review_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_review_reviewPlatform1`
     FOREIGN KEY (`reviewPlatform_reviewPlatform_id`)
     REFERENCES `reviewPlatform` (`reviewPlatform_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_review_site1`
     FOREIGN KEY (`site_site_id`)
     REFERENCES `site` (`site_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -651,8 +644,8 @@ CREATE TABLE IF NOT EXISTS `cdn` (
   CONSTRAINT `fk_cdn_userRegion1`
     FOREIGN KEY (`userRegion_userRegion_id`)
     REFERENCES `userRegion` (`userRegion_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -670,13 +663,13 @@ CREATE TABLE IF NOT EXISTS `cdn_has_game` (
   CONSTRAINT `fk_cdn_has_game_cdn1`
     FOREIGN KEY (`cdn_cdn_id`)
     REFERENCES `cdn` (`cdn_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_cdn_has_game_game1`
     FOREIGN KEY (`game_game_id`)
     REFERENCES `game` (`game_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -710,13 +703,13 @@ CREATE TABLE IF NOT EXISTS `account` (
   CONSTRAINT `fk_account_userRegion1`
     FOREIGN KEY (`userRegion_userRegion_id`)
     REFERENCES `userRegion` (`userRegion_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_account_generalUser1`
     FOREIGN KEY (`generalUser_generalUser_id`)
     REFERENCES `generalUser` (`generalUser_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -733,8 +726,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
   CONSTRAINT `fk_admin_generalUser1`
     FOREIGN KEY (`generalUser_generalUser_id`)
     REFERENCES `generalUser` (`generalUser_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -751,8 +744,8 @@ CREATE TABLE IF NOT EXISTS `registeredUser` (
   CONSTRAINT `fk_registeredUser_generalUser1`
     FOREIGN KEY (`generalUser_generalUser_id`)
     REFERENCES `generalUser` (`generalUser_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -771,12 +764,12 @@ CREATE TABLE IF NOT EXISTS `account_has_admin` (
     FOREIGN KEY (`account_account_id`)
     REFERENCES `account` (`account_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_account_has_admin1_admin1`
     FOREIGN KEY (`admin_admin_id`)
     REFERENCES `admin` (`admin_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -795,12 +788,12 @@ CREATE TABLE IF NOT EXISTS `account_has_registeredUser` (
     FOREIGN KEY (`account_account_id`)
     REFERENCES `account` (`account_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_account_has_registeredUser_registeredUser1`
     FOREIGN KEY (`registeredUser_registeredUser_id`)
     REFERENCES `registeredUser` (`registeredUser_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -811,10 +804,9 @@ DROP TABLE IF EXISTS `device` ;
 
 CREATE TABLE IF NOT EXISTS `device` (
   `device_id` INT NOT NULL,
-  `ip_address` VARCHAR(45) NULL,
-  `name` VARCHAR(45) NULL,
-  `time_connected` DATETIME NULL,
-  `devicecol` VARCHAR(45) NULL,
+  `ip_address` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `time_connected` DATETIME NOT NULL,
   PRIMARY KEY (`device_id`))
 ENGINE = InnoDB;
 
@@ -839,7 +831,7 @@ CREATE TABLE IF NOT EXISTS `registeredUser_has_device` (
     FOREIGN KEY (`registeredUser_registeredUser_id`)
     REFERENCES `registeredUser` (`registeredUser_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -858,12 +850,12 @@ CREATE TABLE IF NOT EXISTS `session` (
     FOREIGN KEY (`account_account_id`)
     REFERENCES `account` (`account_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_account_has_device_device1`
     FOREIGN KEY (`device_device_id`)
     REFERENCES `device` (`device_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -894,12 +886,12 @@ CREATE TABLE IF NOT EXISTS `admin_has_action` (
     FOREIGN KEY (`admin_admin_id`)
     REFERENCES `admin` (`admin_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_admin_has_action_action1`
     FOREIGN KEY (`action_action_id`)
     REFERENCES `action` (`action_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -922,6 +914,30 @@ CREATE TABLE IF NOT EXISTS `registeredUser_has_action` (
   CONSTRAINT `fk_registeredUser_has_action_action1`
     FOREIGN KEY (`action_action_id`)
     REFERENCES `action` (`action_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `publisher_has_game`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `publisher_has_game` ;
+
+CREATE TABLE IF NOT EXISTS `publisher_has_game` (
+  `publisher_publisher_id` INT NOT NULL,
+  `game_game_id` INT NOT NULL,
+  PRIMARY KEY (`publisher_publisher_id`, `game_game_id`),
+  INDEX `fk_publisher_has_game_game1_idx` (`game_game_id` ASC) VISIBLE,
+  INDEX `fk_publisher_has_game_publisher1_idx` (`publisher_publisher_id` ASC) VISIBLE,
+  CONSTRAINT `fk_publisher_has_game_publisher1`
+    FOREIGN KEY (`publisher_publisher_id`)
+    REFERENCES `publisher` (`publisher_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_publisher_has_game_game1`
+    FOREIGN KEY (`game_game_id`)
+    REFERENCES `game` (`game_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
