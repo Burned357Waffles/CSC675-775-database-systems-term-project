@@ -6,13 +6,13 @@
 USE VideoGameInformation;
 
 -- userregion table inserts
-INSERT INTO userregion (userRegion_id, description) VALUES 
+INSERT INTO userRegion (userRegion_id, description) VALUES 
 (1, 'USA'), 
 (2, 'JAP'),
 (3, 'KOR');
 
 -- generaluser table inserts
-INSERT INTO generaluser (generalUser_id, email, name) VALUES 
+INSERT INTO generalUser (generalUser_id, email, name) VALUES 
 (1, '1@mail.com', 'user1'), 
 (2, '2@mail.com', 'user2'), 
 (3, '3@mail.com', 'user3'),
@@ -32,7 +32,7 @@ INSERT INTO account (account_id, password, created, userRegion_userRegion_id, ge
 (4, 'password', '2023-11-12 21:00:00', 1, 4);
 
 -- registereduser table inserts
-INSERT INTO registereduser (registeredUser_id, generalUser_generalUser_id) VALUES
+INSERT INTO registeredUser (registeredUser_id, generalUser_generalUser_id) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -45,7 +45,7 @@ INSERT INTO account_has_admin (account_account_id, admin_admin_id) VALUES
 (3, 3);
 
 -- account_has_registereduser table inserts
-INSERT INTO account_has_registereduser (account_account_id, registeredUser_registeredUser_id) VALUES
+INSERT INTO account_has_registeredUser (account_account_id, registeredUser_registeredUser_id) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -64,7 +64,7 @@ INSERT INTO admin_has_action (admin_admin_id, action_action_id) VALUES
 (3, 3);
 
 -- awardnominations table inserts
-INSERT INTO awardnominations (awardNominations_id, name, date) VALUES
+INSERT INTO awardNominations (awardNominations_id, name, date) VALUES
 (1, '2022 Game Of The Year', '2022-12-08'),
 (2, '2022 Best Audio Design', '2022-12-08'),
 (3, '2012 Game Of The Year', '2012-03-07'),
@@ -129,6 +129,43 @@ INSERT INTO developer (developer_id, name, director) VALUES
 (1, 'FromSoftware Inc.', 'Hidetaka Miyazaki'),
 (2, 'Bethesda Game Studios', 'Todd Howard'),
 (3, 'Mojang Studios', 'Notch');
+
+-- device table inserts
+INSERT INTO device (device_id, ip_address, name, time_connected) VALUES
+(1, '7.36.216.189', 'iPhone 12', '2023-11-11 13:23:44'),
+(2, '0.40.252.132', 'MyComputer', '2023-11-09 10:30:17'),
+(3, '53.252.114.18', 'EEEEEEEEEEEE', '2023-11-12 15:33:33'),
+(4, '30.210.98.208', 'happy laptop', '2023-11-12 21:00:00');
+
+-- registeredUser_has_device table inserts
+INSERT INTO registeredUser_has_device (device_device_id, registeredUser_registeredUser_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
+
+-- ESRB table inserts
+INSERT INTO ESRB (ESRB_id, ESRB_rating, reasons, game_game_id, game_publisher_publisher_id) VALUES
+(1, 'M', 'Blood and Gore, Language, Suggestive Themes, Violence', 1, 1),
+(2, 'M', 'Blood and Gore, Intense Violence, Sexual Themes, Use of Alcohol ', 2, 3),
+(3, 'E10+', 'Fantasy Violence', 3, 4);
+
+-- franchise table inserts
+INSERT INTO franchise (franchise_id, name) VALUES
+(1, 'Bandai Namco Entertainment'),
+(2, 'The Elder Scrolls'),
+(3, 'Minecraft');
+
+-- gamePlatform table inserts
+INSERT INTO gamePlatform (platform_id, name, company) VALUES
+(1, 'Windows', 'Microsoft'),
+(2, 'Playstation 5', 'Sony'),
+(3, 'Playstation 4', 'Sony'),
+(4, 'Xbox Series X/S', 'Microsoft'),
+(5, 'Xbox One', 'Microsoft');
+
+-- 
+
 
 
 
