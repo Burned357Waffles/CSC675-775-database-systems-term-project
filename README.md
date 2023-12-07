@@ -28,7 +28,7 @@ All the work in this course is divided into two milestones, each of them has sev
 |     2       | DONE M1: Database Conceptual Design                        |           
 |     3       | DONE M1: Database Architecture                             |            
 |     4       | DONE M2: Remote Database and User Interface (Bot) Setup    |            
-|     5       | M2: Implementation & Testing                          |           
+|     5       | DONE M2: Implementation & Testing                          |           
 
 
 
